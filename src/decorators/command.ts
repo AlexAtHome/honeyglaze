@@ -2,6 +2,8 @@ import { assert } from 'console'
 import { PREFIX } from '../constants'
 import { ICommandMeta, TCommandFunction } from '../models'
 import { commandList, instanceList } from '../lists/lists'
+import { Logger } from '../utils/logger'
+import chalk from 'chalk'
 
 export function Command(meta?: ICommandMeta): MethodDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -32,8 +34,7 @@ export function Command(meta?: ICommandMeta): MethodDecorator {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       run: (descriptor.value as any).bind(instance),
     })
-    console.log(
-      `[Bot] ${PREFIX}${name} (${propertyKey.toString()}) command is ready!`,
-    )
+    const commandName = PREFIX + name
+    Logger.log(`${chalk.grey('@Command')} ${commandName} ✔️`)
   }
 }
