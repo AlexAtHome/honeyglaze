@@ -6,7 +6,11 @@ export class Logger {
   }
 
   static error(text: string): void {
-    console.error(`${this.getAppTag()} ${chalk.red(text)}`)
+    console.error(`${this.getAppTag()} ${chalk.red(`[ERR] ${text}`)}`)
+  }
+
+  static warn(text: string): void {
+    console.warn(`${this.getAppTag()} ${chalk.yellow(`[WARN] ${text}`)}`)
   }
 
   private static getAppTag(): string {
