@@ -24,3 +24,7 @@ export function getCommand(name: string): ICommand | undefined {
   }
   return result
 }
+
+export function getCommandList(): ICommand[] {
+  return Array.from(commandList.values())
+}
