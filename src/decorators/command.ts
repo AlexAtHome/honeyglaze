@@ -1,9 +1,9 @@
-import { assert } from 'console'
 import { PREFIX } from '../constants'
 import { ICommandMeta, TCommandFunction } from '../models'
 import { commandList, instanceList } from '../lists/lists'
 import { Logger } from '../utils/logger'
 import chalk from 'chalk'
+import { validateCommandAliases } from '../validation'
 
 export function Command(meta?: ICommandMeta): MethodDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -17,10 +17,7 @@ export function Command(meta?: ICommandMeta): MethodDecorator {
     const name = meta?.name || propertyKey.toString()
     let instance = instanceList.get(moduleName)
     if (meta?.aliases) {
-      assert(
-        meta?.aliases?.every(alias => !alias.includes(' ')),
-        `[Bot] ВНИМАНИЕ! Команда ${name} имеет алиас с пробелами!`,
-      )
+      validateCommandAliases(meta?.aliases)
     }
     if (!instance) {
       instance = new target.constructor()

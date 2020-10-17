@@ -29,7 +29,7 @@ function resolveCommand(message: Message): void {
     if (e instanceof ValidationError || e instanceof PermissionError) {
       const errorEmbed = new MessageEmbed()
         .setColor('#ff0000')
-        .setTitle('Произошла ошибка!')
+        .setTitle('An error occured!')
         .setDescription(e.message)
       message.channel.send(errorEmbed).then(m => m.delete({ timeout: 60000 }))
     }
@@ -63,7 +63,9 @@ function getArguments(message: string, argTypes: TArgs): unknown[] {
   argTypes.forEach(([summary, type], index) => {
     if (type === Number) {
       if (isNaN(Number(arr[index]))) {
-        throw new ValidationError(`${summary} должен быть числом`)
+        throw new ValidationError(
+          `The argument "${summary}" should be a number!`,
+        )
       }
       args.push(arr.shift())
     }
@@ -72,9 +74,9 @@ function getArguments(message: string, argTypes: TArgs): unknown[] {
     }
     if (type === Text) {
       const text = arr.join(' ')
-      if (!text) {
+      if (text === '') {
         throw new ValidationError(
-          `Вы должны ввести аргумент "${summary}" типа "Текст"`,
+          `The argument "${summary}" should be a non-empty text!`,
         )
       }
       args.push()
