@@ -55,22 +55,21 @@ function isAllowedToRun(command: ICommand, user: GuildMember | null): boolean {
 }
 
 function getArguments(message: string, argTypes: TArgs): unknown[] {
-  const args: unknown[] = []
   const arr = message.split(/\s+/).slice(1)
   if (arr.length === 0) {
     return []
   }
-  argTypes.forEach(([summary, type], index) => {
+  return argTypes.map(([summary, type], index) => {
     if (type === Number) {
       if (isNaN(Number(arr[index]))) {
         throw new ValidationError(
           `The argument "${summary}" should be a number!`,
         )
       }
-      args.push(arr.shift())
+      return arr.shift()
     }
     if (type === String) {
-      args.push(arr.shift())
+      return String(arr.shift())
     }
     if (type === Text) {
       const text = arr.join(' ')
@@ -79,8 +78,7 @@ function getArguments(message: string, argTypes: TArgs): unknown[] {
           `The argument "${summary}" should be a non-empty text!`,
         )
       }
-      args.push()
+      return text
     }
   })
-  return args
 }
