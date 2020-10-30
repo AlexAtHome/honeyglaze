@@ -1,4 +1,4 @@
-import { Client, GuildMember, Message, MessageEmbed } from 'discord.js'
+import { Client, GuildMember, Message, MessageEmbedOptions } from 'discord.js'
 import { PREFIX } from './constants'
 import { getCommandFromMessage } from './lists/get-command'
 import { commandBlackList, commandWhiteList } from './lists/lists'
@@ -19,21 +19,31 @@ function resolveCommand(message: Message): void {
   }
   try {
     if (!isAllowedToRun(command, message.member)) {
-      throw new PermissionError(command)
+      throw new PermissionError()
     }
     const args = command?.args
       ? getArguments(message.content, command.args)
       : []
-    command?.run(message, ...args)
+
+    void command?.run(message, ...args)
   } catch (e) {
-    if (e instanceof ValidationError || e instanceof PermissionError) {
-      const errorEmbed = new MessageEmbed()
-        .setColor('#ff0000')
-        .setTitle('An error occured!')
-        .setDescription(e.message)
-      message.channel.send(errorEmbed).then(m => m.delete({ timeout: 60000 }))
-    }
+    errorHandler(e, message)
   }
+}
+
+function errorHandler<T extends Error>(error: T, message: Message): void {
+  const embed: MessageEmbedOptions = {
+    title: 'An error occured!',
+    color: '#ff0000',
+    description: error.message || 'Try again later!',
+  }
+  if (error instanceof ValidationError) {
+    embed.title = 'Wrong command usage!'
+  } else if (error instanceof PermissionError) {
+    embed.title = 'You have no permissions to run this command!'
+    embed.description = 'Ask an admin to let you run it.'
+  }
+  message.channel.send({ embed }).catch(err => console.error(err))
 }
 
 function isAllowedToRun(command: ICommand, user: GuildMember | null): boolean {
