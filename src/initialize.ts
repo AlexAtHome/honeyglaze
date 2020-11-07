@@ -4,7 +4,7 @@ import { getCommandFromMessage } from './lists/get-command'
 import { commandBlackList, commandWhiteList } from './lists/lists'
 import { ICommand, PermissionError, TArgs, ValidationError } from './models'
 
-export function attachCommands(bot: Client): void {
+export function initialize(bot: Client): void {
   bot.on('message', message => {
     if (message.author.bot) return
     if (!message.content.startsWith(PREFIX)) return
