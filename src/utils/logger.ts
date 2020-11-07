@@ -14,6 +14,6 @@ export class Logger {
   }
 
   private static getAppTag(): string {
-    return chalk.blue('[some-project]')
+    return chalk.blue('[honeyglaze]')
   }
 }

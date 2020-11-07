@@ -3,7 +3,7 @@ pre-commit:
   commands:
     lint:
       glob: '*.ts'
-      run: eslint --project tsconfig.app.json {staged_files} --fix && git add {staged_files}
+      run: eslint {staged_files} --fix && git add {staged_files}
     format:
       glob: '*.ts'
       run: pretty-quick --staged
