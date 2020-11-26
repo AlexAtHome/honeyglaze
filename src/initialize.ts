@@ -4,8 +4,12 @@ import { getCommandFromMessage } from './lists/get-command'
 import { commandBlackList, commandWhiteList } from './lists/lists'
 import { ICommand, PermissionError, TArgs, ValidationError } from './models'
 
+/**
+ * Adds `message` event listener to the `client` instance that resolves the commands from incoming messages.
+ * @param bot - discord client instance
+ */
 export function initialize(bot: Client): void {
-  bot.on('message', message => {
+  bot.on('message', (message: Message) => {
     if (message.author.bot) return
     if (!message.content.startsWith(PREFIX)) return
     resolveCommand(message)

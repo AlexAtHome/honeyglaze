@@ -5,6 +5,35 @@ import { Logger } from '../utils/logger'
 import chalk from 'chalk'
 import { validateCommandAliases } from '../validation'
 
+/**
+ * Adds the command to the command registry so it's recognized and invoked by your bot.
+ *
+ * ```ts
+ * class Fun {
+ *   @Command()
+ *   public hello(message: Message): void {
+ *     message.reply('hello, world!')
+ *   }
+ * }
+ * ```
+ * You can also configure your command by rewriting its name, adding aliases, arguments, etc.
+ * ```ts
+ * class Fun {
+ *   @Command({
+ *     name: 'hello',
+ *     summary: '',
+ *     aliases: ['hi', 'whatsup', 'привет', 'gutentag'],
+ *     args: [["Addressee", String, true]],
+ *   })
+ *   public hello(message: Message, addressee: string): void {
+ *     message.reply(`hello, ${addressee}!`)
+ *   }
+ * }
+ * ```
+ * _It can be used only in class methods due to restrictions of Typescript decorators._
+ *
+ * @param meta - comamnd configuration. If skipped - the command will be added with the same name with the method
+ */
 export function Command(meta?: ICommandMeta): MethodDecorator {
   // eslint-disable-next-line @typescript-eslint/ban-types
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

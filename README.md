@@ -111,6 +111,7 @@ Gets whole commands list.
 #### @Command
 This is the main decorator of the whole framework. It adds the command to the command registry so it's recognized and invoked by your bot.
 
+Usage:
 ```ts
 @Command()
 public hello(message: Message): void {
@@ -123,7 +124,7 @@ You can also configure your command by rewriting its name, adding aliases, argum
 ```ts
 @Command({
   name: 'hello',
-  summary: '',
+  summary: 'Just says hello to you',
   aliases: ['hi', 'whatsup', 'привет', 'gutentag'],
   args: [["Addressee", String, true]],
 })

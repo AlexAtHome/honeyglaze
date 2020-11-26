@@ -5,6 +5,18 @@ import { PREFIX } from '../constants'
 import { commandBlackList, commandWhiteList } from '../lists/lists'
 import { Logger } from '../utils/logger'
 
+/**
+ * Restricts the command evaluation to users with certain roles.
+ *
+ * ```ts
+ * @Command()
+ * @Allow(["745464790348202055", "745464790376580205"])
+ * public hello(message: Message): void {
+ *   message.reply('hello, world!')
+ * }
+ * ```
+ * @param roleIdList - role id list to restrict the command for
+ */
 export function Restrict(roleIdList: Snowflake[]): MethodDecorator {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function (_target: any, propertyKey: string | symbol): void {
