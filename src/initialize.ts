@@ -68,7 +68,10 @@ function isAllowedToRun(command: ICommand, user: GuildMember | null): boolean {
   return true
 }
 
-function getArguments(message: string, argTypes: TArgs): unknown[] {
+function getArguments(
+  message: string,
+  argTypes: TArgs,
+): (number | string | undefined)[] {
   const arr = message.split(/\s+/).slice(1)
   if (arr.length === 0) {
     return []
@@ -80,13 +83,10 @@ function getArguments(message: string, argTypes: TArgs): unknown[] {
           `The argument "${summary}" should be a number!`,
         )
       }
-      return arr.shift()
-    }
-    if (type === String) {
-      return String(arr.shift())
+      return Number(arr.shift())
     }
     if (type === Text) {
-      const text = arr.join(' ')
+      const text: string = arr.join(' ')
       if (text === '') {
         throw new ValidationError(
           `The argument "${summary}" should be a non-empty text!`,
@@ -94,5 +94,6 @@ function getArguments(message: string, argTypes: TArgs): unknown[] {
       }
       return text
     }
+    return String(arr.shift())
   })
 }
