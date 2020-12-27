@@ -1,19 +1,19 @@
 import { GuildMemberHook } from './../models/hooks'
 import chalk from 'chalk'
-import { joinHooksList } from '../lists/lists'
 import { Logger } from '../utils/logger'
+import { leaveHooksList } from '../lists/lists'
 
 /**
- * Adds a hook that runs when someone joins the server.
+ * Adds a hook that runs when someone leaves the server.
+ * It works either when they leave by their will or kicked by an admin
  *
  * Usage:
  *
  * ```ts
  * class Fun {
- *   @Join()
+ *   @Leave()
  *   async greetNewcomer(guildMember: GuildMember): Promise<void> {
- *     const dm = await guildMember.user.createDM()
- *     dm.send('Oh hey! Welcome to the server!')
+ *     console.log(`${guildMember.user.tag} just left the server (for good maybe)`)
  *   }
  * }
  * ```
@@ -21,14 +21,14 @@ import { Logger } from '../utils/logger'
  * *NOTICE:* In order to get your join-hook working, you have to enable
  * "Server Members Intent" for your bot at https://discord.com/developers
  */
-export function Join(): MethodDecorator {
+export function Leave(): MethodDecorator {
   return function <T = GuildMemberHook>(
     _target: unknown,
     propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<T>,
-  ): void {
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    joinHooksList.push(descriptor.value as any)
-    Logger.log(`${chalk.magenta('@Join')} ${propertyKey.toString()} ✔️`)
+    leaveHooksList.push(descriptor.value as any)
+    Logger.log(`${chalk.yellow('@Leave')} ${propertyKey.toString()} ✔️`)
   }
 }

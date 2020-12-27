@@ -12,6 +12,7 @@ import {
   commandBlackList,
   commandWhiteList,
   joinHooksList,
+  leaveHooksList,
 } from './lists/lists'
 import { ICommand, PermissionError, TArgs, ValidationError } from './models'
 import chalk from 'chalk'
@@ -29,6 +30,11 @@ export function initialize(bot: Client): void {
   bot.on('guildMemberAdd', (newcomer: GuildMember | PartialGuildMember) => {
     for (const joinHook of joinHooksList) {
       joinHook(newcomer)
+    }
+  })
+  bot.on('guildMemberRemove', (newcomer: GuildMember | PartialGuildMember) => {
+    for (const leaveHook of leaveHooksList) {
+      leaveHook(newcomer)
     }
   })
   Logger.log(chalk.greenBright('Initialization complete!'))

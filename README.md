@@ -179,3 +179,24 @@ class Fun {
 ```
 
 *NOTICE:* In order to get your join-hook working, you have to enable "Server Members Intent" for your bot at https://discord.com/developers
+
+
+#### @Leave
+
+Adds a hook that runs when someone leaves the server.
+
+It works either when they leave by their will or kicked by an admin.
+
+Usage:
+
+```ts
+class Fun {
+  @Leave()
+  async logLeaving(guildMember: GuildMember): Promise<void> {
+    console.log(`${guildMember.user.tag} just left the server (for good maybe)`)
+  }
+}
+```
+
+*NOTICE:* In order to get your join-hook working, you have to enable
+"Server Members Intent" for your bot at https://discord.com/developers
