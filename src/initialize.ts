@@ -1,8 +1,20 @@
-import { Client, GuildMember, Message, MessageEmbedOptions } from 'discord.js'
+import { Logger } from './utils/logger'
+import {
+  Client,
+  GuildMember,
+  Message,
+  MessageEmbedOptions,
+  PartialGuildMember,
+} from 'discord.js'
 import { PREFIX } from './constants'
 import { getCommandFromMessage } from './lists/get-command'
-import { commandBlackList, commandWhiteList } from './lists/lists'
+import {
+  commandBlackList,
+  commandWhiteList,
+  joinHooksList,
+} from './lists/lists'
 import { ICommand, PermissionError, TArgs, ValidationError } from './models'
+import chalk from 'chalk'
 
 /**
  * Adds `message` event listener to the `client` instance that resolves the commands from incoming messages.
@@ -14,6 +26,12 @@ export function initialize(bot: Client): void {
     if (!message.content.startsWith(PREFIX)) return
     resolveCommand(message)
   })
+  bot.on('guildMemberAdd', (newcomer: GuildMember | PartialGuildMember) => {
+    for (const joinHook of joinHooksList) {
+      joinHook(newcomer)
+    }
+  })
+  Logger.log(chalk.greenBright('Initialization complete!'))
 }
 
 function resolveCommand(message: Message): void {

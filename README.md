@@ -158,3 +158,21 @@ public hello(message: Message): void {
   message.reply('hello, world!')
 }
 ```
+
+#### @Join
+
+Adds a hook that runs when someone joins the server.
+
+Usage:
+
+```ts
+class Fun {
+  @Join()
+  async greetNewcomer(guildMember: GuildMember): Promise<void> {
+    const dm = await guildMember.user.createDM()
+    dm.send('Oh hey! Welcome to the server!')
+  }
+}
+```
+
+*NOTICE:* In order to get your join-hook working, you have to enable "Server Members Intent" for your bot at https://discord.com/developers
