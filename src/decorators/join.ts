@@ -18,6 +18,8 @@ import { Logger } from '../utils/logger'
  * }
  * ```
  *
+ * You should use it on class methods with arguments of `Discord.GuildMember` and `Discord.Client`. Both of them are optional.
+ *
  * *NOTICE:* In order to get your join-hook working, you have to enable
  * "Server Members Intent" for your bot at https://discord.com/developers
  */

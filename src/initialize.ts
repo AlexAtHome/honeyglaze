@@ -29,12 +29,12 @@ export function initialize(bot: Client): void {
   })
   bot.on('guildMemberAdd', (newcomer: GuildMember | PartialGuildMember) => {
     for (const joinHook of joinHooksList) {
-      joinHook(newcomer)
+      joinHook(newcomer, bot)
     }
   })
   bot.on('guildMemberRemove', (newcomer: GuildMember | PartialGuildMember) => {
     for (const leaveHook of leaveHooksList) {
-      leaveHook(newcomer)
+      leaveHook(newcomer, bot)
     }
   })
   Logger.log(chalk.greenBright('Initialization complete!'))
