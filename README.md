@@ -1,9 +1,12 @@
 <div align="center">
 <h1>Honeyglaze</h1>
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/mamoruuu/honeyglaze?logo=git)
+![node-current](https://img.shields.io/node/v/honeyglaze?logo=node.js)
+
 Perfect framework for your honey glazed Discord bots.
 
-![honey pot](./.github/cover.jpg)  
+![honey pot](https://github.com/mamoruuu/honeyglaze/raw/main/.github/cover.jpg)  
 <small>_Photo by [Arwin Neil Baichoo](https://unsplash.com/photos/yQzrDgU-KAI?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink)_</small>
 </div>
 
@@ -62,7 +65,7 @@ Honeyglaze maintains all necessary command resolving code, allowing you to focus
     }
     ```
 3. Turn on your bot and try to type `!hello` command in the chat  
-    ![](./.github/hello-world.png)
+    ![](https://github.com/mamoruuu/honeyglaze/raw/main/.github/hello-world.png)
 
 ## Architecture
 
