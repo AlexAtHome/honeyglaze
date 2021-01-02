@@ -35,9 +35,8 @@ import { validateCommandAliases } from '../validation'
  * @param meta - comamnd configuration. If skipped - the command will be added with the same name with the method
  */
 export function Command(meta?: ICommandMeta): MethodDecorator {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function <T = TCommandFunction>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<T>,
