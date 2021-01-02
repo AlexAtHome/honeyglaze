@@ -1,3 +1,4 @@
+import { ISchedulerMeta } from './decorators/scheduled'
 import { Logger } from './utils/logger'
 import {
   Client,
@@ -11,6 +12,8 @@ import { getCommandFromMessage } from './lists/get-command'
 import {
   commandBlackList,
   commandWhiteList,
+  scheduledTasksList,
+  intervalIdsList,
   joinHooksList,
   leaveHooksList,
 } from './lists/lists'
@@ -37,7 +40,24 @@ export function initialize(bot: Client): void {
       leaveHook(newcomer, bot)
     }
   })
+  bot.on('ready', () => {
+    runScheduledTasks(bot)
+  })
   Logger.log(chalk.greenBright('Initialization complete!'))
+}
+
+function startScheduledTasks(hook: ISchedulerMeta, client: Client) {
+  intervalIdsList.add(setInterval(hook.run, hook.interval, client))
+}
+
+function runScheduledTasks(client: Client): void {
+  for (const task of scheduledTasksList) {
+    if (task.delay) {
+      setTimeout(startScheduledTasks, task.delay, task, client)
+    } else {
+      startScheduledTasks(task, client)
+    }
+  }
 }
 
 function resolveCommand(message: Message): void {
