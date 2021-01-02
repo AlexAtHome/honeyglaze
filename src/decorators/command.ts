@@ -1,9 +1,10 @@
 import { PREFIX } from '../constants'
 import { ICommandMeta, TCommandFunction } from '../models'
-import { commandList, instanceList } from '../lists/lists'
+import { commandList } from '../lists/lists'
 import { Logger } from '../utils/logger'
 import chalk from 'chalk'
 import { validateCommandAliases } from '../validation'
+import { getOrCreateClassInstance } from '../utils/get-class-instance'
 
 /**
  * Adds the command to the command registry so it's recognized and invoked by your bot.
@@ -41,16 +42,12 @@ export function Command(meta?: ICommandMeta): MethodDecorator {
     propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<T>,
   ): void {
-    const moduleName = target.constructor.name
-    const name = meta?.name || propertyKey.toString()
-    let instance = instanceList.get(moduleName)
     if (meta?.aliases) {
       validateCommandAliases(meta?.aliases)
     }
-    if (!instance) {
-      instance = new target.constructor()
-      instanceList.set(moduleName, instance as never)
-    }
+    const moduleName = target.constructor.name
+    const name = meta?.name || propertyKey.toString()
+    const instance = getOrCreateClassInstance(moduleName, target)
     commandList.set(name, {
       ...meta,
       name,
