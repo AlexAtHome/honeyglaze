@@ -111,7 +111,7 @@ Gets whole commands list.
 
 ### Decorators
 
-#### @Command
+#### `@Command`
 This is the main decorator of the whole framework. It adds the command to the command registry so it's recognized and invoked by your bot.
 
 Usage:
@@ -138,7 +138,7 @@ public hello(message: Message, addressee: string): void {
 
 *It can be used only in class methods because of restrictions of Typescript decorators.*
 
-#### @Allow
+#### `@Allow`
 
 Allows the command evaluation to users with certain roles.
 
@@ -150,7 +150,7 @@ public hello(message: Message): void {
 }
 ```
 
-#### @Restrict
+#### `@Restrict`
 
 Does the oppsite to what `@Allow` does - restricts the command evaluation to users with certain roles.
 
@@ -162,7 +162,7 @@ public hello(message: Message): void {
 }
 ```
 
-#### @Join
+#### `@Join`
 
 Adds a hook that runs when someone joins the server.
 
@@ -183,7 +183,7 @@ You should use it on class methods with arguments of `Discord.GuildMember` and `
 *NOTICE:* In order to get your join-hook working, you have to enable "Server Members Intent" for your bot at https://discord.com/developers
 
 
-#### @Leave
+#### `@Leave`
 
 Adds a hook that runs when someone leaves the server.
 
@@ -204,3 +204,22 @@ You should use it on class methods with arguments of `Discord.GuildMember` and `
 
 *NOTICE:* In order to get your join-hook working, you have to enable
 "Server Members Intent" for your bot at https://discord.com/developers
+
+#### `@Scheduled`
+
+Runs your method on schedule immediately after starting the bot.
+
+Usage:
+```ts
+@Scheduled({
+  interval: 1000,
+  delay: 2000,
+})
+consoleLog(client: Client): void {
+  console.log(`logging ${this.tick} by ${client?.user?.tag}`);
+  this.tick++;
+}
+```
+It passes the bot instance into the decorated method so you can access its data.
+
+This decorator might be useful to run certains operations on schedule (like scanning the database, renaming channels, etc).
