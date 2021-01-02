@@ -2,6 +2,7 @@ import { GuildMemberHook } from './../models/hooks'
 import chalk from 'chalk'
 import { Logger } from '../utils/logger'
 import { leaveHooksList } from '../lists/lists'
+import { getOrCreateClassInstance } from '../utils/get-class-instance'
 
 /**
  * Adds a hook that runs when someone leaves the server.
@@ -25,12 +26,14 @@ import { leaveHooksList } from '../lists/lists'
  */
 export function Leave(): MethodDecorator {
   return function <T = GuildMemberHook>(
-    _target: unknown,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    target: Object,
     propertyKey: string | symbol,
     descriptor: TypedPropertyDescriptor<T>,
   ) {
+    const instance = getOrCreateClassInstance(propertyKey.toString(), target)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    leaveHooksList.push(descriptor.value as any)
+    leaveHooksList.push((descriptor.value as any).bind(instance))
     Logger.log(`${chalk.yellow('@Leave')} ${propertyKey.toString()} ✔️`)
   }
 }
